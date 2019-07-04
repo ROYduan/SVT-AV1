@@ -269,7 +269,11 @@ EbErrorType picture_control_set_ctor(
         sb_origin_y = (sb_origin_x == picture_sb_w - 1) ? sb_origin_y + 1 : sb_origin_y;
         sb_origin_x = (sb_origin_x == picture_sb_w - 1) ? 0 : sb_origin_x + 1;
     }
-
+#if ENABLE_CDF_UPDATE
+    // MD Rate Estimation Array
+    EB_MALLOC(MdRateEstimationContext*, object_ptr->md_rate_estimation_array, sizeof(MdRateEstimationContext), EB_N_PTR);
+    memset(object_ptr->md_rate_estimation_array, 0, sizeof(MdRateEstimationContext));
+#endif
     if (initDataPtr->cdf_mode == 0) {
         EB_MALLOC(FRAME_CONTEXT*, object_ptr->ec_ctx_array, sizeof(FRAME_CONTEXT) * all_sb, EB_N_PTR);
         EB_MALLOC(MdRateEstimationContext*, object_ptr->rate_est_array, sizeof(MdRateEstimationContext) * all_sb, EB_N_PTR);
